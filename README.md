@@ -1,6 +1,9 @@
 # Music Store
 Microservice built with REST pattern written in Rust.
 
+
+![icon](https://github.com/pepitoenpeligro/music_store/blob/master/docs/imgs/icon.png)
+
 # Build and run
 
 ```shell
@@ -41,5 +44,22 @@ Below are screenshots of running these examples with the microservice:
 ![Web browser Get-HTTP method example](https://github.com/pepitoenpeligro/music_store/blob/master/docs/imgs/00-web-browser-get.png)
 
 
+## Docker
+
+To create docker image:
+```bash
+docker build --no-cache -t musicstore -f Dockerfile .
+```
+
+To start api:
+```bash
+docker run -d -p 8000:8000 musicstore 
+```
+![Docker build and run](https://github.com/pepitoenpeligro/music_store/blob/master/docs/imgs/01-docker-build-run.png)
+
+
+01-docker-build-run.png
+
 ## References
 * [Tokio](https://github.com/tokio-rs/tokio)
+* [How Build Small and Fast Docker Images](https://shaneutt.com/blog/rust-fast-small-docker-image-builds/)
