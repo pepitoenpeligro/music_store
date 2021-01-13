@@ -46,28 +46,29 @@
 //         .await;
 // }
 
-extern crate banana;
 
-use banana::{App, Request, Response};
+use actix_web::{server, App, HttpRequest, Responder};
+use std::env;
 
-fn main() -> () {
-    let mut a = App::new();
+fn greet(req: &HttpRequest) -> impl Responder {
+    let to = req.match_info().get("name").unwrap_or("World");
+    format!("Hello {}!", to)
+}
 
-    fn this_handler(_:Request) -> Response {
-        Response::ok_html("TESTTESTTEST".to_string())
-    }
+fn main() {
+    // Get the port number to listen on.
+    let port = env::var("PORT")
+        .unwrap_or_else(|_| "3000".to_string())
+        .parse()
+        .expect("PORT must be a number");
 
-    fn another_handler(req:Request) -> Response {
-        let name:String = match req.query_string.get(&"name".to_string()) {
-            Some(n) => n.clone(),
-            None => "anonymous".to_string(),
-        };
-
-        Response::ok_html(format!("Hello {}", name))
-    }
-
-    a.routes.insert("^/$", this_handler); 
-    a.routes.insert("^/(?P<title>[^']+)$", another_handler);
-
-    a.run("127.0.0.1:8080");
+    // Start a server, configuring the resources to serve.
+    server::new(|| {
+        App::new()
+            .resource("/", |r| r.f(greet))
+            .resource("/{name}", |r| r.f(greet))
+    })
+    .bind(("0.0.0.0", port))
+    .expect("Can not bind to port 8000")
+    .run();
 }
