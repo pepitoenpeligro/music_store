@@ -1,4 +1,10 @@
+---
 applications:
 - name: rust-app
-  memory: 128M
   instances: 1
+  memory: 256MB
+  env:
+    RUST_TOOLCHAIN: beta
+    RUSTUP_VERBOSE: indeed
+    CARGO_BUILD_FLAGS: -j 4 --release
+    START_COMMAND: ./target/release/music_store
