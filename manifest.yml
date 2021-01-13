@@ -1,0 +1,4 @@
+applications:
+- name: rust-app
+  memory: 128M
+  instances: 1
